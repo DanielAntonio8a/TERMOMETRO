@@ -1,20 +1,36 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-title>
-      Blank
+      Termómetro
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-item>
+    <ion-label position="stacked">Temperatura (°C)</ion-label>
+    <ion-input type="number" [(ngModel)]="temperatura"></ion-input>
+  </ion-item>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <ion-item *ngIf="mensaje">
+    {{ mensaje }}
+  </ion-item>
+<br><br><br>
+  <div class="termometro-container">
+    <div class="termometro-bola" [style.bottom]="calcularPosicionBola()"></div>
+    <div class="termometro-progress" [style.height]="temperatura + '%'" [ngClass]="{'frio': esFrio, 'templado': esTemplado, 'calor': esCalor}"></div>
+  </div>
+
+  <ion-range class="range-slider" [(ngModel)]="temperatura" min="0" max="100" pin="true" color="danger" (ionChange)="calcularTemperatura()">
+    <ion-label slot="start">0°C</ion-label>
+    <ion-label slot="end">100°C</ion-label>
+  </ion-range>
+
+  <div class="content-wrapper">
+    <div class="emoticon" [ngClass]="{'frio': esFrio, 'templado': esTemplado, 'calor': esCalor}">
+      <ion-icon name="snow" *ngIf="esFrio"></ion-icon>
+      <ion-icon name="partly-sunny" *ngIf="esTemplado"></ion-icon>
+      <ion-icon name="flame" *ngIf="esCalor"></ion-icon>
+    </div>
   </div>
 </ion-content>
